@@ -58,12 +58,12 @@ class InputTransition(nn.Module):
 
     def forward(self, x):
         # do we want a PRELU here as well?
-        print("x before InputTransition shape:"+str(x.shape))
+        # print("x before InputTransition shape:"+str(x.shape))
         out = self.bn1(self.conv1(x))
         # split input in to 16 channels (or is it right to say duplicate the input for 16 times to operate "torch.add()"?? By Chao) 
         x16 = torch.cat((x, x, x, x, x, x, x, x,
                          x, x, x, x, x, x, x, x), 1) # changed dim = 0 to 1 to operate on channels, and have "x16" the same size as "out" to operate "torch.add()". By Chao.
-        print("x16 shape:"+str(x16.shape))
+        # print("x16 shape:"+str(x16.shape))
         # pdb.set_trace()
         out = self.relu1(torch.add(out, x16))
         return out
@@ -129,7 +129,7 @@ class OutputTransition(nn.Module):
         # convolve 32 down to 2 channels
         out = self.relu1(self.bn1(self.conv1(x)))
         out = self.conv2(out)
-        print("out shape before softmax:"+str(out.shape))
+        # print("out shape before softmax:"+str(out.shape))
 
         # make channels the last axis
         out = out.permute(0, 2, 3, 4, 1).contiguous()
@@ -173,25 +173,25 @@ class VNet(nn.Module):
     #     self.up_tr32 = UpTransition(32, 1)
     #     self.out_tr = OutputTransition(16)
     def forward(self, x):
-        print("x before model shape:"+str(x.shape))
+        # print("x before model shape:"+str(x.shape))
         out16 = self.in_tr(x)
         out32 = self.down_tr32(out16)
         out64 = self.down_tr64(out32)
         out128 = self.down_tr128(out64)
-        print("out16(in_tr) shape:"+str(out16.shape))
-        print("out32(down_tr32) shape:"+str(out32.shape))
-        print("out64(down_tr64) shape:"+str(out64.shape))
-        print("out128(down_tr128) shape:"+str(out128.shape))
+        # print("out16(in_tr) shape:"+str(out16.shape))
+        # print("out32(down_tr32) shape:"+str(out32.shape))
+        # print("out64(down_tr64) shape:"+str(out64.shape))
+        # print("out128(down_tr128) shape:"+str(out128.shape))
         out256 = self.down_tr256(out128)
-        print("out256(down_tr256) shape:"+str(out256.shape))
+        # print("out256(down_tr256) shape:"+str(out256.shape))
         out = self.up_tr256(out256, out128)
-        print("up_tr256 shape:"+str(out.shape))
+        # print("up_tr256 shape:"+str(out.shape))
         out = self.up_tr128(out, out64)
-        print("up_tr128 shape:"+str(out.shape))
+        # print("up_tr128 shape:"+str(out.shape))
         out = self.up_tr64(out, out32)
-        print("up_tr64 shape:"+str(out.shape))
+        # print("up_tr64 shape:"+str(out.shape))
         out = self.up_tr32(out, out16)
-        print("up_tr32 shape:"+str(out.shape))
+        # print("up_tr32 shape:"+str(out.shape))
         out = self.out_tr(out)
-        print("out_tr shape:"+str(out.shape))
+        #  print("out_tr shape:"+str(out.shape))
         return out

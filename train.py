@@ -54,7 +54,7 @@ def save_checkpoint(state, path, prefix, filename='checkpoint.pth.tar'):
 
 def inference(params, args, loader, model):
     src = params['ModelParams']['dirInfer']
-    dst = resultDir
+    dst = params['ModelParams']['dirResult']
 
     model.eval()
     # assume single GPU / batch size 1
@@ -66,7 +66,7 @@ def inference(params, args, loader, model):
         spacing = np.array(list(reversed(itk_img.GetSpacing())))
 
         pdb.set_trace()
-        shape = data.size()
+        _, z, y, x = data.shape # need to subset shape of 3-d. by Chao.
         # convert names to batch tensor
         if args.cuda:
             data.pin_memory()
@@ -75,8 +75,8 @@ def inference(params, args, loader, model):
             data = Variable(data)
         output = model(data)
         _, output = output.max(1)
-        output = output.view(shape)
-        pdb.set_trace()
+        output = output.view((x, y, z))
+        # pdb.set_trace()
         output = output.cpu()
 
         print("save {}".format(id))
@@ -105,8 +105,8 @@ def main(params, args):
     print("build vnet")
     model = vnet.VNet(elu=False, nll=nll)
     batch_size = args.batchSz
-    torch.cuda.set_device(2) # why do I have to add this line? It seems the below line is useless to apply GPU devices. By Chao.
-    model = nn.parallel.DataParallel(model, device_ids=[2])
+    torch.cuda.set_device(3) # why do I have to add this line? It seems the below line is useless to apply GPU devices. By Chao.
+    model = nn.parallel.DataParallel(model, device_ids=[3])
 
     if args.resume:
         if os.path.isfile(args.resume):
@@ -148,7 +148,7 @@ def main(params, args):
 
     kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
 
-    print("loading training set")
+    print("\nloading training set")
     dataManagerTrain = DM.DataManager(params['ModelParams']['dirTrain'],
                                           params['ModelParams']['dirResult'],
                                           params['DataManagerParams'])
@@ -159,7 +159,7 @@ def main(params, args):
     trainSet = promise12.PROMISE12(mode='train', images=numpyImages, GT=numpyGT, transform=trainTransform)
     trainLoader = DataLoader(trainSet, batch_size=batch_size, shuffle=True, **kwargs)
 
-    print("loading test set")
+    print("\nloading test set")
     dataManagerTest = DM.DataManager(params['ModelParams']['dirTest'],
                                       params['ModelParams']['dirResult'],
                                       params['DataManagerParams'])
@@ -167,8 +167,8 @@ def main(params, args):
     numpyImages = dataManagerTest.getNumpyImages()
     numpyGT = dataManagerTest.getNumpyGT()
 
-    TestSet = promise12.PROMISE12(mode='test', images=numpyImages, GT=numpyGT, transform=TestTransform)
-    TestLoader = DataLoader(TestSet, batch_size=batch_size, shuffle=True, **kwargs)
+    testSet = promise12.PROMISE12(mode='test', images=numpyImages, GT=numpyGT, transform=testTransform)
+    testLoader = DataLoader(testSet, batch_size=batch_size, shuffle=True, **kwargs)
 
     if args.opt == 'sgd':
         optimizer = optim.SGD(model.parameters(), lr=1e-1,
@@ -184,11 +184,11 @@ def main(params, args):
     for epoch in range(1, args.nEpochs + 1):
         adjust_opt(args.opt, optimizer, epoch)
         train(args, epoch, model, trainLoader, optimizer, trainF)
-        testLoss = test(args, epoch, model, testLoader, optimizer, testF) # err is accuracy??? by Chao.
+        testDice = test(args, epoch, model, testLoader, optimizer, testF) # err is accuracy??? by Chao.
         save_checkpoint({'epoch': epoch,
                          'state_dict': model.state_dict(),
                          'best_prec1': best_prec1}, path=resultDir, prefix="vnet")
-        os.system('./plot.py {} {} &'.format(len(trainLoader), resultDir))
+    os.system('./plot.py {} {} &'.format(len(trainLoader), resultDir))
 
     trainF.close()
     testF.close()
@@ -206,64 +206,62 @@ def main(params, args):
         inferLoader = DataLoader(inferSet, batch_size=batch_size, shuffle=True, **kwargs)
         inference(params, args, inferLoader, model)
 
-
-
-def train_nll(args, epoch, model, trainLoader, optimizer, trainF):
-    model.train()
-    nProcessed = 0
-    nTrain = len(trainLoader.dataset)
-    for batch_idx, output in enumerate(trainLoader):
-        data, target, id = output
-        if args.cuda:
-            data, target = data.cuda(), target.cuda()
-        data, target = Variable(data), Variable(target)
-        optimizer.zero_grad()
-        output = model(data)
-        target = target.view(target.numel())
-        loss = F.nll_loss(output, target)
-        dice_loss = bioloss.dice_error(output, target)
-        # make_graph.save('/tmp/t.dot', loss.creator); assert(False)
-        loss.backward()
-        optimizer.step()
-        nProcessed += len(data)
-        pred = output.data.max(1)[1]  # get the index of the max log-probability
-        incorrect = pred.ne(target.data).cpu().sum()
-        err = 100.*incorrect/target.numel()
-        partialEpoch = epoch + batch_idx / len(trainLoader) - 1
-        print('Train Epoch: {:.2f} [{}/{} ({:.0f}%)]\tLoss: {:.4f}\tError: {:.3f}\t Dice: {:.6f}'.format(
-            partialEpoch, nProcessed, nTrain, 100. * batch_idx / len(trainLoader),
-            loss.data[0], err, dice_loss))
-
-        trainF.write('{},{},{}\n'.format(partialEpoch, loss.data[0], err))
-        trainF.flush()
-
-def test_nll(args, epoch, model, testLoader, optimizer, testF):
-    model.eval()
-    test_loss = 0
-    dice_loss = 0
-    incorrect = 0
-    numel = 0
-    for data, target in testLoader:
-        if args.cuda:
-            data, target = data.cuda(), target.cuda()
-        data, target = Variable(data, volatile=True), Variable(target)
-        target = target.view(target.numel())
-        numel += target.numel()
-        output = model(data)
-        test_loss += F.nll_loss(output, target, weight=weights).data[0]
-        dice_loss += bioloss.dice_error(output, target)
-        pred = output.data.max(1)[1]  # get the index of the max log-probability
-        incorrect += pred.ne(target.data).cpu().sum()
-
-    test_loss /= len(testLoader)  # loss function already averages over batch size
-    dice_loss /= len(testLoader)
-    err = 100.*incorrect/numel
-    print('\nTest set: Average loss: {:.4f}, Error: {}/{} ({:.3f}%) Dice: {:.6f}\n'.format(
-        test_loss, incorrect, numel, err, dice_loss))
-
-    testF.write('{},{},{}\n'.format(epoch, test_loss, err))
-    testF.flush()
-    return err
+# def train_nll(args, epoch, model, trainLoader, optimizer, trainF):
+#     model.train()
+#     nProcessed = 0
+#     nTrain = len(trainLoader.dataset)
+#     for batch_idx, output in enumerate(trainLoader):
+#         data, target, id = output
+#         if args.cuda:
+#             data, target = data.cuda(), target.cuda()
+#         data, target = Variable(data), Variable(target)
+#         optimizer.zero_grad()
+#         output = model(data)
+#         target = target.view(target.numel())
+#         loss = F.nll_loss(output, target)
+#         dice_loss = bioloss.dice_error(output, target)
+#         # make_graph.save('/tmp/t.dot', loss.creator); assert(False)
+#         loss.backward()
+#         optimizer.step()
+#         nProcessed += len(data)
+#         pred = output.data.max(1)[1]  # get the index of the max log-probability
+#         incorrect = pred.ne(target.data).cpu().sum()
+#         err = 100.*incorrect/target.numel()
+#         partialEpoch = epoch + batch_idx / len(trainLoader) - 1
+#         print('Train Epoch: {:.2f} [{}/{} ({:.0f}%)]\tLoss: {:.4f}\tError: {:.3f}\t Dice: {:.6f}'.format(
+#             partialEpoch, nProcessed, nTrain, 100. * batch_idx / len(trainLoader),
+#             loss.data[0], err, dice_loss))
+#
+#         trainF.write('{},{},{}\n'.format(partialEpoch, loss.data[0], err))
+#         trainF.flush()
+#
+# def test_nll(args, epoch, model, testLoader, optimizer, testF):
+#     model.eval()
+#     test_loss = 0
+#     dice_loss = 0
+#     incorrect = 0
+#     numel = 0
+#     for data, target in testLoader:
+#         if args.cuda:
+#             data, target = data.cuda(), target.cuda()
+#         data, target = Variable(data, volatile=True), Variable(target)
+#         target = target.view(target.numel())
+#         numel += target.numel()
+#         output = model(data)
+#         test_loss += F.nll_loss(output, target, weight=weights).data[0]
+#         dice_loss += bioloss.dice_error(output, target)
+#         pred = output.data.max(1)[1]  # get the index of the max log-probability
+#         incorrect += pred.ne(target.data).cpu().sum()
+#
+#     test_loss /= len(testLoader)  # loss function already averages over batch size
+#     dice_loss /= len(testLoader)
+#     err = 100.*incorrect/numel
+#     print('\nTest set: Average loss: {:.4f}, Error: {}/{} ({:.3f}%) Dice: {:.6f}\n'.format(
+#         test_loss, incorrect, numel, err, dice_loss))
+#
+#     testF.write('{},{},{}\n'.format(epoch, test_loss, err))
+#     testF.flush()
+#     return err
 
 def train_dice(args, epoch, model, trainLoader, optimizer, trainF):
     model.train()
@@ -271,6 +269,7 @@ def train_dice(args, epoch, model, trainLoader, optimizer, trainF):
     nTrain = len(trainLoader.dataset)
     for batch_idx, output in enumerate(trainLoader):
         data, target, id = output
+        # print("training with {}".format(id[0]))
         target = target[0,:,:,:].view(-1) # right? added by Chao. 
         if args.cuda:
             data, target = data.cuda(), target.cuda()
@@ -286,41 +285,48 @@ def train_dice(args, epoch, model, trainLoader, optimizer, trainF):
         loss.backward()
         optimizer.step()
         nProcessed += len(data)
-        err = 100.*(1. - loss.data[0])
-        partialEpoch = epoch + batch_idx / len(trainLoader) - 1
-        print('Train Epoch: {:.2f} [{}/{} ({:.0f}%)]\tLoss: {:.8f}\tError: {:.8f}'.format(
-            partialEpoch, nProcessed, nTrain, 100. * batch_idx / len(trainLoader),
-            loss.data[0], err))
+        err = 100.*(1. - loss.data[0]) # loss.data[0] is dice coefficient? By Chao.
+        # partialEpoch = epoch + batch_idx / len(trainLoader) - 1
+        # print('Train Epoch: {:.2f} [{}/{} ({:.0f}%)]\tLoss: {:.8f}\tError: {:.8f}'.format(
+        #     partialEpoch, nProcessed, nTrain, 100. * batch_idx / len(trainLoader),
+        #     loss.data[0], err))
 
-        trainF.write('{},{},{}\n'.format(partialEpoch, loss.data[0], err))
-        trainF.flush()
+    print('\nFor trainning: Epoch: {} \tdice_coefficient: {:.4f}\tError: {:.4f}\n'.format(
+    epoch, loss.data[0], err))
+
+        # trainF.write('{},{},{}\n'.format(partialEpoch, loss.data[0], err))
+    trainF.write('{},{},{}\n'.format(epoch, loss.data[0], err))
+    trainF.flush()
 
 def test_dice(args, epoch, model, testLoader, optimizer, testF):
     model.eval()
-    test_loss = 0
+    test_dice = 0
     incorrect = 0
-    for data, target in testLoader:
+    for batch_idx, output in enumerate(testLoader):
+        data, target, id = output
+        # print("testing with {}".format(id[0]))
+        target = target[0,:,:,:].view(-1) # right? added by Chao. 
         if args.cuda:
             data, target = data.cuda(), target.cuda()
         data = Variable(data)
         target = Variable(target)
         output = model(data)
-        loss = bioloss.dice_loss(output, target).data[0]
-        test_loss += loss
-        # incorrect += (1. - loss)
+        dice = bioloss.dice_loss(output, target).data[0]
+        test_dice += dice
+        incorrect += (1. - dice)
 
-    test_loss /= len(testLoader)  # loss function already averages over batch size
-    # nTotal = len(testLoader)
-    # err = 100.*incorrect/nTotal
+    nTotal = len(testLoader)
+    test_dice /= nTotal  # loss function already averages over batch size
+    err = 100.*incorrect/nTotal
     # print('\nTest set: Average Dice Coeff: {:.4f}, Error: {}/{} ({:.0f}%)\n'.format(
     #     test_loss, incorrect, nTotal, err))
     #
     # testF.write('{},{},{}\n'.format(epoch, test_loss, err))
-    print('\nTest set: Average Dice Coeff: {:.4f}\n'.format(test_loss))
+    print('\nFor testing: Epoch:{}\tAverage Dice Coeff: {:.4f}\tError:{:.4f}\n'.format(epoch, test_dice, err))
 
-    testF.write('{},{}\n'.format(epoch, test_loss))
+    testF.write('{},{},{}\n'.format(epoch, test_dice, err))
     testF.flush()
-    return test_loss
+    return test_dice
 
 def adjust_opt(optAlg, optimizer, epoch):
     if optAlg == 'sgd':
