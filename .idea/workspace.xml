@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6b6a1f22-f886-4b38-b9b9-1210f0abccd8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/promise12.py" beforeDir="false" afterPath="$PROJECT_DIR$/promise12.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchbiomed/loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchbiomed/loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/vnet.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,79 +31,43 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4855923">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="hn_petct_data_clean.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/hn_petct_data_clean.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-3990">
-                  <caret line="104" column="35" lean-forward="true" selection-start-line="104" selection-start-column="35" selection-end-line="104" selection-end-column="35" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="plot.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/plot.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="334">
-                  <caret line="54" column="41" lean-forward="true" selection-start-line="54" selection-start-column="41" selection-end-line="54" selection-end-column="41" />
-                  <folding>
-                    <element signature="e#24#39#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="train.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/train.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-2321">
-                  <caret line="181" column="58" lean-forward="true" selection-start-line="181" selection-start-column="58" selection-end-line="181" selection-end-column="58" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="hn_petct_data_clean.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/hn_petct_data_clean.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="395">
-                  <caret line="196" column="8" lean-forward="true" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="load_slices.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/load_slices.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="287">
-                  <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" selection-end-column="46" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="DataManagerHN_PETCT.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DataManagerHN_PETCT.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2160">
+              <caret line="155" column="34" selection-start-line="155" selection-start-column="25" selection-end-line="155" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hn_petct_data_clean.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hn_petct_data_clean.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="210" lean-forward="true" selection-start-line="210" selection-end-line="210" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="load_slices.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/load_slices.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1650">
+              <caret line="110" column="18" selection-start-line="110" selection-start-column="18" selection-end-line="110" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>promise12</find>
-      <find>gpu_ids</find>
-      <find>pdb.</find>
-      <find>srcFolder</find>
-      <find>write</find>
-      <find>missing_slices</find>
-      <find>relfile</find>
-      <find>'number'</find>
-      <find>transform</find>
       <find>colors[0]</find>
       <find>split</find>
-      <find>ct</find>
       <find>gpu</find>
       <find>model.cuda</find>
       <find>is_best</find>
@@ -128,6 +86,16 @@
       <find>save</find>
       <find>save_up</find>
       <find>missSliceID</find>
+      <find>ROInumber</find>
+      <find>id</find>
+      <find>idx</find>
+      <find>write</find>
+      <find>trainf</find>
+      <find>trainF</find>
+      <find>Volume,</find>
+      <find>invalidContour</find>
+      <find>res</find>
+      <find>ct</find>
     </findStrings>
     <replaceStrings>
       <replace>__getitem_train</replace>
@@ -147,6 +115,12 @@
       <replace>dat</replace>
       <replace>data</replace>
       <replace>invalid</replace>
+      <replace>ID</replace>
+      <replace>patientID</replace>
+      <replace>VolumeList[patientID],</replace>
+      <replace>ct_res</replace>
+      <replace>pet_res</replace>
+      <replace>pet</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -182,9 +156,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="235" />
-    <option name="y" value="23" />
-    <option name="width" value="1087" />
+    <option name="x" value="516" />
+    <option name="y" value="33" />
+    <option name="width" value="693" />
     <option name="height" value="767" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -193,7 +167,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -219,6 +192,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -340,7 +314,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="235" y="23" width="1087" height="767" extended-state="0" />
+    <frame x="516" y="33" width="693" height="767" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32941177" />
@@ -348,12 +322,12 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32876712" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49860725" visible="true" weight="0.2925373" />
-      <window_info anchor="bottom" x="351" y="214" width="795" height="393" id="Terminal" order="11" weight="0.33283582" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48827586" visible="true" weight="0.13205741" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49860725" visible="true" weight="0.41791046" />
+      <window_info anchor="bottom" x="351" y="214" width="795" height="393" id="Terminal" order="11" weight="0.3075862" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48827586" weight="0.13588516" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" weight="0.09625668" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.15598086" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.13166398" />
       <window_info id="Structure" order="1" sideWeight="0.5117241" side_tool="true" weight="0.124394186" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3986207" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -369,24 +343,24 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49117646" visible="true" weight="0.11565304" />
       <window_info id="Structure" order="1" sideWeight="0.5088235" side_tool="true" weight="0.15009746" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32941177" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32941177" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32876712" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49860725" visible="true" weight="0.37910447" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3989726" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="bottom" x="351" y="214" width="795" height="393" id="Terminal" order="11" weight="0.33390412" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5013928" side_tool="true" weight="0.48932928" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32941177" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.24825524" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49860725" visible="true" weight="0.37910447" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,9 +393,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1500">
           <caret line="100" column="37" lean-forward="true" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -446,9 +417,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
           <caret line="54" column="98" lean-forward="true" selection-start-line="54" selection-start-column="98" selection-end-line="54" selection-end-column="98" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -572,36 +540,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
           <caret line="263" column="38" selection-start-line="263" selection-start-column="38" selection-end-line="263" selection-end-column="38" />
-          <folding>
-            <element signature="e#21#31#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hn_petct_readin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-51">
-          <caret line="17" column="102" lean-forward="true" selection-start-line="17" selection-start-column="102" selection-end-line="17" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataManagerHN_PETCT.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="432" selection-start-line="432" selection-end-line="432" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/hn_petct_readin.py" />
     <entry file="file://$PROJECT_DIR$/DataManager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="295">
           <caret line="70" column="34" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -609,9 +555,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
           <caret line="136" column="8" selection-start-line="136" selection-start-column="4" selection-end-line="136" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -619,9 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-227">
           <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -632,34 +572,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plot.py">
+    <entry file="file://$PROJECT_DIR$/DataManagerHN_PETCT.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="54" column="41" lean-forward="true" selection-start-line="54" selection-start-column="41" selection-end-line="54" selection-end-column="41" />
+        <state relative-caret-position="2160">
+          <caret line="155" column="34" selection-start-line="155" selection-start-column="25" selection-end-line="155" selection-end-column="34" />
           <folding>
-            <element signature="e#24#39#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2321">
-          <caret line="181" column="58" lean-forward="true" selection-start-line="181" selection-start-column="58" selection-end-line="181" selection-end-column="58" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/load_slices.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" selection-end-column="46" />
+        <state relative-caret-position="1650">
+          <caret line="110" column="18" selection-start-line="110" selection-start-column="18" selection-end-line="110" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="180" column="10" selection-start-line="180" selection-start-column="4" selection-end-line="180" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="54" column="41" selection-start-line="54" selection-start-column="41" selection-end-line="54" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hn_petct_data_clean.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="196" column="8" lean-forward="true" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
+        <state relative-caret-position="260">
+          <caret line="210" lean-forward="true" selection-start-line="210" selection-end-line="210" />
         </state>
       </provider>
     </entry>

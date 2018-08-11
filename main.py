@@ -43,7 +43,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--batchSz', type=int, default=1)
 parser.add_argument('--dice', action='store_true', default=True)
 parser.add_argument('--gpu_ids', type=list, default=[1])
-parser.add_argument('--nEpochs', type=int, default=10)
+parser.add_argument('--nEpochs', type=int, default=50)
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',

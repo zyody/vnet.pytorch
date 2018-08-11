@@ -65,8 +65,8 @@ def inference(params, args, loader, model):
         origin = np.array(list(reversed(itk_img.GetOrigin())))
         spacing = np.array(list(reversed(itk_img.GetSpacing())))
 
-        pdb.set_trace()
-        _, z, y, x = data.shape # need to subset shape of 3-d. by Chao.
+        # pdb.set_trace()
+        _, _, z, y, x = data.shape # need to subset shape of 3-d. by Chao.
         # convert names to batch tensor
         if args.cuda:
             data.pin_memory()
@@ -105,8 +105,8 @@ def main(params, args):
     print("build vnet")
     model = vnet.VNet(elu=False, nll=nll)
     batch_size = args.batchSz
-    torch.cuda.set_device(3) # why do I have to add this line? It seems the below line is useless to apply GPU devices. By Chao.
-    model = nn.parallel.DataParallel(model, device_ids=[3])
+    torch.cuda.set_device(0) # why do I have to add this line? It seems the below line is useless to apply GPU devices. By Chao.
+    model = nn.parallel.DataParallel(model, device_ids=[0])
 
     if args.resume:
         if os.path.isfile(args.resume):
